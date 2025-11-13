@@ -1,0 +1,36 @@
+# Maven target directory
+/target/
+
+# IntelliJ IDEA files
+*.iml
+.idea/
+
+# Compiled class files
+*.class
+
+# Logs
+*.log
+
+# Local libraries
+/libs/
+
+# Build artifacts
+*.jar
+*.war
+*.ear
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Scripts output (if any)
+*.sh~
+
+# Exclude user-specific config
+*.swp
+
+# Developer tools
+libs
+libs/**
+scripts
+scripts/**
