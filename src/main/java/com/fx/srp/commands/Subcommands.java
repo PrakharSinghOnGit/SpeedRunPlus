@@ -16,6 +16,15 @@ public enum Subcommands {
     Subcommands(String subcommand) {
         this.subcommand = subcommand;
     }
+
+    public static Subcommands fromString(String input) {
+        for (Subcommands cmd : values()) {
+            if (cmd.subcommand.equalsIgnoreCase(input)) {
+                return cmd;
+            }
+        }
+        return null; // invalid subcommand
+    }
 }
 
 

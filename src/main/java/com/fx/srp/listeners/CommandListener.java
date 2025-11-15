@@ -1,6 +1,8 @@
 package com.fx.srp.listeners;
 
 import com.fx.srp.SpeedRunPlus;
+import com.fx.srp.commands.Commands;
+import com.fx.srp.commands.Subcommands;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,11 +39,13 @@ public class CommandListener implements Listener {
         if (player.getWorld().getName().contains(player.getUniqueId().toString())) {
             String message = event.getMessage().toLowerCase();
 
-            // Allow only /reset and /endrun
-            if (message.equals("/reset") || message.equals("/endrun")) return;
+            // Allow only "reset" and "stop"
+            boolean isReset = Commands.SRP.with(Subcommands.RESET).equals(message);
+            boolean isStop = Commands.SRP.with(Subcommands.STOP).equals(message);
+            if (isReset || isStop) return;
 
             player.sendMessage(ChatColor.RED + "You cannot use commands during a run! Use "
-                    + ChatColor.GRAY + "/endrun "
+                    + ChatColor.GRAY + "/srp stop "
                     + ChatColor.RED + "to quit."
             );
             event.setCancelled(true);

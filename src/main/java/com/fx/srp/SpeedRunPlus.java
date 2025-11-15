@@ -73,6 +73,9 @@ public class SpeedRunPlus extends JavaPlugin {
     @Getter private int MAX_PLAYERS;
     @Getter private long MAX_RUN_TIME;
 
+    // TODO: Implement CO-OP and Battle
+    // TODO: Keep track of player's EXP to return when finishing the run
+
     public void onEnable() {
         // Initialize and verify that Multiverse & Multiverse-NetherPortals is present
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager()

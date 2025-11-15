@@ -59,13 +59,20 @@ public class CommandInterceptor implements CommandExecutor {
             return false;
         }
 
-        Subcommands subcommand = Subcommands.valueOf(args[0].toUpperCase());
-        Player otherPlayer;
-
-        // Other player to include in co-op or battle
-        if (args.length == 2) {
-            otherPlayer = args[1] != null ? Bukkit.getPlayer(args[1]) : null;
+        // Parse the subcommand
+        Subcommands subcommand = Subcommands.fromString(args[0]);
+        if (subcommand == null) {
+            player.sendMessage(ChatColor.RED + "Usage: /srp <start|stop|reset|battle|coop> [player]");
+            return false;
         }
+
+        // Parse the player argument
+        boolean isTwoPlayerMode = subcommand.equals(Subcommands.COOP) || subcommand.equals(Subcommands.BATTLE);
+        if (isTwoPlayerMode && args.length != 2) {
+            player.sendMessage(ChatColor.RED + "Usage: /srp <start|stop|reset|battle|coop> [player]");
+            return false;
+        }
+        // Player otherPlayer = args[1] != null ? Bukkit.getPlayer(args[1]) : null;
 
         // Execute command
         switch (subcommand) {
@@ -95,9 +102,9 @@ public class CommandInterceptor implements CommandExecutor {
         // Check whether the player's world already exists
         if (worldManager.isMVWorld(overworld)) {
             player.sendMessage(ChatColor.RED + "You are already in a speedrun! Use "
-                    + ChatColor.GRAY + "/reset "
+                    + ChatColor.GRAY + "/srp reset "
                     + ChatColor.RED + "to reset, or "
-                    + ChatColor.GRAY + "/endrun "
+                    + ChatColor.GRAY + "/srp stop "
                     + ChatColor.RED + "to quit."
             );
             return false;
@@ -128,7 +135,7 @@ public class CommandInterceptor implements CommandExecutor {
         // Check whether the player's world already exists
         if (!worldManager.isMVWorld(overworld) || !worldManager.isMVWorld(nether) || !worldManager.isMVWorld(end)) {
             player.sendMessage(ChatColor.RED + "You are not in a speedrun! Use "
-                    + ChatColor.GRAY + "/startrun "
+                    + ChatColor.GRAY + "/srp start "
                     + ChatColor.RED + "to start a speedrun."
             );
             return false;
