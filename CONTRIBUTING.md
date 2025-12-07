@@ -30,7 +30,7 @@ By submitting a contribution, you confirm that:
 - You have the right to submit it.
 - The code is your original work or properly licensed.
 - You grant the project owner the right to use, modify, and relicense
-  your contribution as part of the project (see CLA below).
+  your contribution as part of the project (see [CLA](CLA.md)).
 
 ## 5. Issues and Suggestions
 You may submit feature requests, bug reports, or suggestions using the

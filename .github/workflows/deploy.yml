@@ -11,10 +11,13 @@ on:
           - 1.1.0-SNAPSHOT
           - 1.0.0
           - 1.0.0-SNAPSHOT
-          - 1.0.0-SNAPSHOT
           - 0.0.0
-      publish:
+      publish-modrinth:
         description: Publish to Modrinth
+        type: boolean
+        default: false
+      publish-hangar:
+        description: Publish to Hangar
         type: boolean
         default: false
 
@@ -55,7 +58,7 @@ jobs:
           ssh_private_key: ''
 
       - name: Publish to Modrinth
-        if: ${{ github.event.inputs.publish == 'true' }}
+        if: ${{ github.event.inputs.publish-modrinth == 'true' }}
         uses: RubixDev/modrinth-upload@v1
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
@@ -69,3 +72,39 @@ jobs:
           loaders: paper,bukkit,spigot
           featured: true
           project_id: alRlV7Gp
+
+      - name: Publish to Hangar
+        if: ${{ github.event.inputs.publish-hangar == 'true' }}
+        uses: benwoo1110/hangar-upload-action@v1
+        with:
+          api_token: ${{ secrets.HANGAR_TOKEN }}
+          slug: SpeedRunPlus
+          version: "${{ github.event.inputs.version }}"
+          channel: ${{ contains(github.event.inputs.version, '-SNAPSHOT') && 'Snapshot' || 'Release' }}
+          files: |
+            [
+              {
+                "path": "./${{ env.ASSET_NAME }}",
+                "platforms": ["PAPER"]
+              }
+            ]
+          description: ${{ fromJSON(steps.release_info.outputs.body) }}
+          plugin_dependencies: |
+            {
+              "PAPER": [
+                {
+                  "name": "Multiverse-Core",
+                  "required": true,
+                  "externalUrl": "https://hangar.papermc.io/Multiverse/Multiverse-Core/versions/4.3.16"
+                },
+                {
+                  "name": "Multiverse-NetherPortals",
+                  "required": true,
+                  "externalUrl": "https://hangar.papermc.io/Multiverse/Multiverse-NetherPortals/versions/4.2.3"
+                }
+              ]
+            }
+          platform_dependencies: |
+            {
+              "PAPER": ["1.16.1"]
+            }

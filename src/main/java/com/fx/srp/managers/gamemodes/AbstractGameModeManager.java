@@ -202,14 +202,19 @@ public abstract class AbstractGameModeManager<T extends AbstractSpeedrun> implem
      *
      * @param run the run to finish
      */
-    protected void finishRun(T run) {
+    protected void finishRun(T run, int delayTicks) {
         run.setState(AbstractSpeedrun.State.FINISHED);
 
-        // Perform cleanup
-        cleanupAfterRun(run, () -> worldManager.deleteWorldsForPlayers(run.getSpeedrunners(), () -> {}));
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            // Perform cleanup
+            cleanupAfterRun(run, () ->
+                    worldManager.deleteWorldsForPlayers(run.getSpeedrunners(), () -> {})
+            );
 
-        // Remove from global speedrun registry
-        gameManager.unregisterRun(run);
+            // Remove from global speedrun registry
+            gameManager.unregisterRun(run);
+
+        }, delayTicks);
     }
 
     private void cleanupAfterRun(T run, Runnable onWorldsDeleted) {

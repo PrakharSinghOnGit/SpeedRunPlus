@@ -175,7 +175,8 @@ public class SoloManager extends AbstractGameModeManager<SoloSpeedrun> {
             );
         }
 
-        finishRun(soloSpeedrun);
+        int delayTicks = player == null ? 0 : 200;
+        finishRun(soloSpeedrun, delayTicks);
     }
 
     /* ==========================================================

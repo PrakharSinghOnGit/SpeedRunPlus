@@ -363,9 +363,9 @@ public class BattleManager extends AbstractGameModeManager<BattleSpeedrun> {
                     20
             );
             getOpponent(battleSpeedrun, winner).sendTitle(
-                    ChatColor.GREEN + "You lost! ",
+                    ChatColor.RED + "You lost! ",
                     ChatColor.GRAY + winner.getName() +
-                            ChatColor.GREEN + " won with a time of: " +
+                            ChatColor.RED + " won with a time of: " +
                             ChatColor.ITALIC + ChatColor.GRAY + formattedTime,
                     10,
                     140,
@@ -373,7 +373,8 @@ public class BattleManager extends AbstractGameModeManager<BattleSpeedrun> {
             );
         }
 
-        finishRun(battleSpeedrun);
+        int delayTicks = winner == null ? 0 : 200;
+        finishRun(battleSpeedrun, delayTicks);
     }
 
     /* ==========================================================
